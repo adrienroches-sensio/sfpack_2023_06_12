@@ -16,6 +16,7 @@ final class Movie
         public readonly string            $title,
         public readonly string            $plot,
         public readonly DateTimeImmutable $releasedAt,
+        public readonly string            $poster,
         public readonly array             $genres,
     ) {
     }

@@ -10,7 +10,7 @@ use function array_column;
 use function array_map;
 
 /**
- * @phpstan-type MovieDetails array{title: string, slug: string, releasedAt: string, plot: string, genres: list<string>}
+ * @phpstan-type MovieDetails array{title: string, slug: string, releasedAt: string, plot: string, poster: string, genres: list<string>}
  */
 final class MovieRepository
 {
@@ -22,7 +22,8 @@ final class MovieRepository
             'releasedAt' => '30 Jan 2002',
             'plot' => "Cléopâtre, la reine d’Égypte, décide, pour défier l'Empereur romain Jules César, de construire en trois mois un palais somptueux en plein désert. Si elle y parvient, celui-ci devra concéder publiquement que le peuple égyptien est le plus grand de tous les peuples. Pour ce faire, Cléopâtre fait appel à Numérobis, un architecte d'avant-garde plein d'énergie. S'il réussit, elle le couvrira d'or. S'il échoue, elle le jettera aux crocodiles.
     Celui-ci, conscient du défi à relever, cherche de l'aide auprès de son vieil ami Panoramix. Le druide fait le voyage en Égypte avec Astérix et Obélix. De son côté, Amonbofis, l'architecte officiel de Cléopâtre, jaloux que la reine ait choisi Numérobis pour construire le palais, va tout mettre en œuvre pour faire échouer son concurrent.",
-            'genres' => ['Comedy']
+            'poster' => 'asterix-et-obelix-mission-cleopatre.png',
+            'genres' => ['Comedy'],
         ]
     ];
 
@@ -36,6 +37,7 @@ final class MovieRepository
             title: $movieDetails['title'],
             plot: $movieDetails['plot'],
             releasedAt: new DateTimeImmutable($movieDetails['releasedAt']),
+            poster: $movieDetails['poster'],
             genres: $movieDetails['genres'],
         );
     }

@@ -12,7 +12,7 @@
                         <div class="card shadow-sm">
                             {#                            {% set moviePoster = movie.remotePoster ? movie.poster : asset('build/images/movies/' ~ movie.poster) %}#}
 
-                            {#                            <img src="{{ moviePoster }}" alt="Poster of {{ movie.title }}">#}
+                            <img src="{{ asset('build/images/movies/' ~ movie.poster) }}" alt="Poster of {{ movie.title }}">
 
                             <div class="card-body">
                                 <p class="card-text">
