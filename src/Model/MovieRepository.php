@@ -7,6 +7,7 @@ namespace App\Model;
 use DateTimeImmutable;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use function array_column;
+use function array_map;
 
 /**
  * @phpstan-type MovieDetails array{title: string, slug: string, releasedAt: string, plot: string, genres: list<string>}
@@ -46,5 +47,13 @@ final class MovieRepository
         $movieDetails = $indexedBySlug[$movieSlug] ?? throw new NotFoundHttpException('Movie slug not found');
 
         return $this->convertToModel($movieDetails);
+    }
+
+    /**
+     * @return list<Movie>
+     */
+    public function listAll(): array
+    {
+        return array_map($this->convertToModel(...), self::MOVIES);
     }
 }

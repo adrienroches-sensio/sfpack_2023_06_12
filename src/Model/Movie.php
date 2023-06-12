@@ -19,4 +19,9 @@ final class Movie
         public readonly array             $genres,
     ) {
     }
+
+    public function year(): string
+    {
+        return $this->releasedAt->format('Y');
+    }
 }

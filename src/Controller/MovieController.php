@@ -10,6 +10,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class MovieController extends AbstractController
 {
     #[Route(
+        path: '/movies',
+        name: 'app_movie_list',
+        methods: ['GET']
+    )]
+    public function list(): Response
+    {
+        $movieRepository = new MovieRepository();
+
+        return $this->render('movie/list.html.twig', [
+            'movies' => $movieRepository->listAll(),
+        ]);
+    }
+
+    #[Route(
         path: '/movies/{movieSlug}',
         name: 'app_movie_details',
         requirements: [
