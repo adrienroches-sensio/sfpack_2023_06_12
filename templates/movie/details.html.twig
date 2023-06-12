@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title movie.title|title %}
+
+{% block main %}
+    <div class="container col-xxl-8 px-4 py-5">
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+            <div class="col-10 col-sm-8 col-lg-6">
+                <svg class="d-block mx-lg-auto img-fluid" width="700" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
+                     preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#55595c" />
+                    <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+                </svg>
+            </div>
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold lh-1 mb-3">{{ movie.title|title }}</h1>
+                <small>({{ movie.releasedAt|format_date('medium') }})</small>
+                <p class="lead">
+                    <span>{{ movie.plot }}</span>
+                <ul>
+                    <li>
+                        Genres: {{ movie.genres|join(', ') }}
+                    </li>
+                </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock main %}
