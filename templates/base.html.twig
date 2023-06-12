@@ -14,7 +14,9 @@
 {% block body %}
     <main>
         {% block navbar %}
-            {{ render_esi(controller('App\\Controller\\NavbarController::main')) }}
+            {{ render_esi(controller('App\\Controller\\NavbarController::main', {
+                'currentMovieSlug': app.request.attributes.get('movieSlug')
+            })) }}
         {% endblock navbar %}
         {% block main %}{% endblock main %}
     </main>
