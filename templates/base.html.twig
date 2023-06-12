@@ -14,7 +14,7 @@
 {% block body %}
     <main>
         {% block navbar %}
-            {{ include('navbar.html.twig', with_context = false) }}
+            {{ render(controller('App\\Controller\\NavbarController::main')) }}
         {% endblock navbar %}
         {% block main %}{% endblock main %}
     </main>
