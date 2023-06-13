@@ -2,8 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Genre;
 use App\Entity\Movie;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,9 +18,17 @@ class MovieType extends AbstractType
             ->add('slug')
             ->add('title')
             ->add('poster')
-            ->add('releasedAt')
+            ->add('releasedAt', DateType::class, [
+                'widget' => 'single_text',
+                'input' => 'datetime_immutable',
+            ])
             ->add('plot')
-            ->add('genres')
+            ->add('genres', EntityType::class, [
+                'class' => Genre::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => false,
+            ])
         ;
     }
 
