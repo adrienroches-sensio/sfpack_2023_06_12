@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Regex;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
+#[ORM\UniqueConstraint('unique_movie_slug', columns: ['slug'])]
 class Movie
 {
     public const SLUG_FORMAT = '\d{4}-\w+(-\w+)*';
