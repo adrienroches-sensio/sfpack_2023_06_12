@@ -21,6 +21,26 @@ class MovieRepository extends ServiceEntityRepository
         parent::__construct($registry, Movie::class);
     }
 
+    /**
+     * @return list<Movie>
+     */
+    public function listAll(): array
+    {
+        return $this->findAll();
+    }
+
+    public function getBySlug(string $movieSlug): Movie
+    {
+        $qb = $this->createQueryBuilder('movie');
+
+        $qb
+            ->andWhere($qb->expr()->eq('movie.slug', ':slug'))
+            ->setParameter('slug', $movieSlug)
+        ;
+
+        return $qb->getQuery()->getSingleResult();
+    }
+
     public function save(Movie $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
