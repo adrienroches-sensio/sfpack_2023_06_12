@@ -7,6 +7,7 @@ use App\Form\MovieType;
 use App\Model\Movie;
 use App\Repository\MovieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -52,14 +53,24 @@ class MovieController extends AbstractController
         ],
         methods: ['GET', 'POST']
     )]
-    public function new(MovieRepository $movieRepository, string|null $movieSlug = null): Response
-    {
+    public function new(
+        Request $request,
+        MovieRepository $movieRepository,
+        string|null $movieSlug = null
+    ): Response {
         $movie = new MovieEntity();
         if (null !== $movieSlug) {
             $movie = $movieRepository->getBySlug($movieSlug);
         }
 
         $movieForm = $this->createForm(MovieType::class, $movie);
+        $movieForm->handleRequest($request);
+
+        if ($movieForm->isSubmitted() && $movieForm->isValid()) {
+            $movieRepository->save($movie, true);
+
+            return $this->redirectToRoute('app_movie_details', ['movieSlug' => $movie->getSlug()]);
+        }
 
         return $this->render('movie/new.html.twig', [
             'movie_form' => $movieForm->createView(),
