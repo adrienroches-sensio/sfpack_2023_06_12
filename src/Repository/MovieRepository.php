@@ -26,7 +26,14 @@ class MovieRepository extends ServiceEntityRepository
      */
     public function listAll(): array
     {
-        return $this->findAll();
+        $qb = $this->createQueryBuilder('movie');
+
+        $qb
+            ->leftJoin('movie.genres', 'genre')
+            ->addSelect('genre')
+        ;
+
+        return $qb->getQuery()->getResult();
     }
 
     public function getBySlug(string $movieSlug): Movie
@@ -36,6 +43,8 @@ class MovieRepository extends ServiceEntityRepository
         $qb
             ->andWhere($qb->expr()->eq('movie.slug', ':slug'))
             ->setParameter('slug', $movieSlug)
+            ->leftJoin('movie.genres', 'genre')
+            ->addSelect('genre')
         ;
 
         return $qb->getQuery()->getSingleResult();
