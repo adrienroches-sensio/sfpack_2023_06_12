@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 class Movie
 {
+    public const SLUG_FORMAT = '\d{4}-\w+(-\w+)*';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
