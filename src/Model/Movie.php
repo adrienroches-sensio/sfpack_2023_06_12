@@ -8,6 +8,7 @@ use App\Entity\Genre as GenreEntity;
 use App\Entity\Movie as MovieEntity;
 use DateTimeImmutable;
 use function array_map;
+use function str_starts_with;
 
 final class Movie
 {
@@ -51,5 +52,10 @@ final class Movie
     public function year(): string
     {
         return $this->releasedAt->format('Y');
+    }
+
+    public function isRemotePoster(): bool
+    {
+        return str_starts_with($this->poster, 'http');
     }
 }
