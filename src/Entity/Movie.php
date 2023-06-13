@@ -7,6 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Count;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Regex;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 class Movie
@@ -18,21 +23,32 @@ class Movie
     #[ORM\Column]
     private ?int $id = null;
 
+    #[NotNull]
+    #[Regex(pattern: '#'.self::SLUG_FORMAT.'#')]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[NotNull]
+    #[Length(min: 3)]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[NotNull]
     #[ORM\Column(length: 255)]
     private ?string $poster = null;
 
+    #[NotNull]
+    #[LessThanOrEqual('+3 years')]
     #[ORM\Column(type: Types::DATETIMETZ_IMMUTABLE)]
     private ?\DateTimeImmutable $releasedAt = null;
 
+    #[NotNull]
+    #[Length(min: 20)]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $plot = null;
 
+    #[NotNull]
+    #[Count(min: 1)]
     #[ORM\ManyToMany(targetEntity: Genre::class, inversedBy: 'movies')]
     private Collection $genres;
 
