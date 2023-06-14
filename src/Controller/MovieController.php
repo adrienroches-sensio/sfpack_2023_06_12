@@ -13,15 +13,20 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MovieController extends AbstractController
 {
+    public function __construct(
+        private readonly MovieRepository $movieRepository,
+    ) {
+    }
+
     #[Route(
         path: '/movies',
         name: 'app_movie_list',
         methods: ['GET']
     )]
-    public function list(MovieRepository $movieRepository): Response
+    public function list(): Response
     {
         return $this->render('movie/list.html.twig', [
-            'movies' => Movie::fromMovieEntities($movieRepository->listAll()),
+            'movies' => Movie::fromMovieEntities($this->movieRepository->listAll()),
         ]);
     }
 
@@ -33,10 +38,10 @@ class MovieController extends AbstractController
         ],
         methods: ['GET']
     )]
-    public function details(MovieRepository $movieRepository, string $movieSlug): Response
+    public function details(string $movieSlug): Response
     {
         return $this->render('movie/details.html.twig', [
-            'movie' => Movie::fromMovieEntity($movieRepository->getBySlug($movieSlug)),
+            'movie' => Movie::fromMovieEntity($this->movieRepository->getBySlug($movieSlug)),
         ]);
     }
 
@@ -55,19 +60,18 @@ class MovieController extends AbstractController
     )]
     public function new(
         Request $request,
-        MovieRepository $movieRepository,
         string|null $movieSlug = null
     ): Response {
         $movie = new MovieEntity();
         if (null !== $movieSlug) {
-            $movie = $movieRepository->getBySlug($movieSlug);
+            $movie = $this->movieRepository->getBySlug($movieSlug);
         }
 
         $movieForm = $this->createForm(MovieType::class, $movie);
         $movieForm->handleRequest($request);
 
         if ($movieForm->isSubmitted() && $movieForm->isValid()) {
-            $movieRepository->save($movie, true);
+            $this->movieRepository->save($movie, true);
 
             return $this->redirectToRoute('app_movie_details', ['movieSlug' => $movie->getSlug()]);
         }

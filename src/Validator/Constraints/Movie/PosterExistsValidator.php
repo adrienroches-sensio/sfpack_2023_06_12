@@ -11,6 +11,11 @@ use function file_exists;
 
 final class PosterExistsValidator extends ConstraintValidator
 {
+    public function __construct(
+        private readonly string $assetsImagesMoviesPath,
+    ) {
+    }
+
     public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof PosterExists) {
@@ -21,14 +26,14 @@ final class PosterExistsValidator extends ConstraintValidator
             return;
         }
 
-        $filename = __DIR__ . '/../../../../assets/images/movies/' . $value;
+        $filename = "{$this->assetsImagesMoviesPath}/{$value}";
         if (file_exists($filename) === false) {
             $violationBuilder = $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ filename }}', $this->formatValue($value))
                 ->setInvalidValue($value)
             ;
 
-            $violationBuilder->addViolation();;
+            $violationBuilder->addViolation();
 
             return;
         }
