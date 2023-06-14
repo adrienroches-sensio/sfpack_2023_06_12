@@ -21,11 +21,19 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Model/'
+            - '../src/Omdb/Api/'
             - '../src/Validator/'
             - '../src/Kernel.php'
 
     App\Validator\:
         resource: '../src/Validator/**/*Validator.php'
+
+    App\Omdb\Api\:
+        resource: '../src/Omdb/Api/'
+        exclude:
+            - '../src/Omdb/Api/Movie.php'
+
+    App\Omdb\Api\OmdbApiClientInterface: '@App\Omdb\Api\OmdbApiClient'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
