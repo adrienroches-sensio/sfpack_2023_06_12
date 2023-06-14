@@ -31,11 +31,11 @@ final class OmdbApiClient implements OmdbApiClientInterface
             /** @var array{Title: string, Year: string, Rated: string, Released: string, Genre: string, Plot: string, Poster: string, imdbID: string, Type: string, Response: string} $result */
             $result = $response->toArray(true);
         } catch (Throwable $throwable) {
-            NoResult::forId($imdbId, $throwable);
+            throw NoResult::forId($imdbId, $throwable);
         }
 
         if (array_key_exists('Response', $result) === true && 'False' === $result['Response']) {
-            NoResult::forId($imdbId);
+            throw NoResult::forId($imdbId);
         }
 
         return new Movie(

@@ -20,7 +20,7 @@ use function array_walk;
 #[ORM\UniqueConstraint('unique_movie_slug', columns: ['slug'])]
 class Movie
 {
-    public const SLUG_FORMAT = '\d{4}-\w+(-\w+)*';
+    public const SLUG_FORMAT = '\d{4}-\w+([-\+]\w+)*';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
