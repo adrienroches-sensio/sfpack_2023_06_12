@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Regex;
+use function array_walk;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 #[ORM\UniqueConstraint('unique_movie_slug', columns: ['slug'])]
@@ -125,6 +126,18 @@ class Movie
     public function setPlot(string $plot): static
     {
         $this->plot = $plot;
+
+        return $this;
+    }
+
+    /**
+     * @param list<Genre> $genres
+     */
+    public function setGenres(array $genres): static
+    {
+        $this->genres->clear();
+
+        array_walk($genres, $this->addGenre(...));
 
         return $this;
     }

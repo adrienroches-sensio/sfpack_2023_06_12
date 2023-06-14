@@ -7,6 +7,8 @@ namespace App\Omdb\Api;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Throwable;
 use function array_key_exists;
+use function array_map;
+use function count;
 
 final class OmdbApiClient implements OmdbApiClientInterface
 {
@@ -61,13 +63,17 @@ final class OmdbApiClient implements OmdbApiClientInterface
         ]);
 
         try {
-            /** @var array{Search: array{Title: string, Year: string, imdbID: string, Type: string, Poster: string}, totalResults: string} $result */
+            /** @var array{Search: list<array{Title: string, Year: string, imdbID: string, Type: string, Poster: string}>, totalResults: string} $result */
             $result = $response->toArray(true);
         } catch (Throwable $throwable) {
             throw NoResult::searchingForTitle($title, $throwable);
         }
 
         if (array_key_exists('Response', $result) === true && 'False' === $result['Response']) {
+            throw NoResult::searchingForTitle($title);
+        }
+
+        if (count($result['Search']) === 0) {
             throw NoResult::searchingForTitle($title);
         }
 
