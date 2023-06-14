@@ -48,4 +48,40 @@ final class OmdbApiClient implements OmdbApiClientInterface
             Type: $result['Type'],
         );
     }
+
+    public function searchByTitle(string $title): array
+    {
+        $response = $this->omdbApiClient->request('GET', '/', [
+            'query' => [
+                's' => $title,
+                'r' => 'json',
+                'page' => 1,
+                'type' => 'movie',
+            ],
+        ]);
+
+        try {
+            /** @var array{Search: array{Title: string, Year: string, imdbID: string, Type: string, Poster: string}, totalResults: string} $result */
+            $result = $response->toArray(true);
+        } catch (Throwable $throwable) {
+            throw NoResult::searchingForTitle($title, $throwable);
+        }
+
+        if (array_key_exists('Response', $result) === true && 'False' === $result['Response']) {
+            throw NoResult::searchingForTitle($title);
+        }
+
+        return array_map(
+            static function (array $rawSearchResult): SearchResult {
+                return new SearchResult(
+                    Title: $rawSearchResult['Title'],
+                    Year: $rawSearchResult['Year'],
+                    imdbId: $rawSearchResult['imdbID'],
+                    Type: $rawSearchResult['Type'],
+                    Poster: $rawSearchResult['Poster'],
+                );
+            },
+            $result['Search']
+        );
+    }
 }
