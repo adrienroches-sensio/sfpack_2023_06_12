@@ -11,15 +11,16 @@ use App\Omdb\Api\Movie;
 use App\Repository\GenreRepository;
 use App\Repository\MovieRepository;
 use DateTimeImmutable;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use function explode;
 use function sprintf;
-use function urlencode;
 
 final class OmdbToDatabaseImporter implements OmdbToDatabaseImporterInterface
 {
     public function __construct(
         private readonly MovieRepository $movieRepository,
         private readonly GenreRepository $genreRepository,
+        private readonly SluggerInterface $slugger,
     ) {
     }
 
@@ -31,7 +32,7 @@ final class OmdbToDatabaseImporter implements OmdbToDatabaseImporterInterface
             ->setRated(Rated::tryFrom($movie->Rated) ?? Rated::GeneralAudiences)
             ->setPlot($movie->Plot)
             ->setReleasedAt(new DateTimeImmutable($movie->Released))
-            ->setSlug(sprintf('%s-%s', $movie->Year, urlencode($movie->Title)))
+            ->setSlug(sprintf('%s-%s', $movie->Year, $this->slugger->slug($movie->Title)))
             ->setGenres($this->getGenres($movie->Genre))
         ;
 

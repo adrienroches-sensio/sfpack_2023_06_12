@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Regex;
 use function array_walk;
 
+#[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 #[ORM\UniqueConstraint('unique_movie_slug', columns: ['slug'])]
 class Movie
