@@ -17,5 +17,11 @@
                 {% endfor %}
             </ul>
         </div>
+        <div class="vr"></div>
+        {% if is_granted('IS_AUTHENTICATED') %}
+            <a href="{{ logout_path() }}" class="btn btn-primary">Logout ({{ app.user.username }})</a>
+        {% else %}
+            <a href="{{ path('app_login') }}" class="btn btn-primary">Login</a>
+        {% endif %}
     </div>
 </nav>

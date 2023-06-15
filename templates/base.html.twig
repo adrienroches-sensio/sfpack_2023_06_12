@@ -14,7 +14,7 @@
 </head>
 <body>
 {% block body %}
-    <main>
+    <main class="{% block mainClass '' %}">
         <div class="container">
             {% block navbar %}
                 {{ render_esi(controller('App\\Controller\\NavbarController::main', {
