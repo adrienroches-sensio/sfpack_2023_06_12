@@ -20,13 +20,14 @@ services:
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
+            - '../src/EventSubscriber/'
             - '../src/Model/'
             - '../src/Omdb/Api/'
             - '../src/Validator/'
             - '../src/Kernel.php'
 
-    App\Validator\:
-        resource: '../src/Validator/**/*Validator.php'
+    App\EventSubscriber\:
+        resource: '../src/EventSubscriber/**/*Subscriber.php'
 
     App\Omdb\Api\:
         resource: '../src/Omdb/Api/'
@@ -34,6 +35,9 @@ services:
             - '../src/Omdb/Api/Movie.php'
 
     App\Omdb\Api\OmdbApiClientInterface: '@App\Omdb\Api\OmdbApiClient'
+
+    App\Validator\:
+        resource: '../src/Validator/**/*Validator.php'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -27,8 +27,11 @@ class LoginSubscriber implements EventSubscriberInterface
 
     public function storeLastLoggedIn(LoginSuccessEvent $event): void
     {
-        /** @var User $user */
         $user = $event->getUser();
+
+        if (!$user instanceof User) {
+            return;
+        }
 
         $user->setLastLoggedInAt($this->clock->now());
 
