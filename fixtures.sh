@@ -14,3 +14,7 @@ symfony console doctrine:query:sql "INSERT INTO Genre (name) VALUES ('Comedy'), 
 
 symfony console doctrine:query:sql "INSERT INTO movie_genre (movie_id, genre_id) VALUES (1, 1)"
 symfony console doctrine:query:sql "INSERT INTO movie_genre (movie_id, genre_id) VALUES (2, 2)"
+
+symfony console doctrine:query:sql \
+  "INSERT INTO user (username, roles, password) VALUES ('adrien', '[]', '\$2y\$13\$7iLRI.zz6foUch5qmvms8eqmlG07seWC6aLwZ/8pvL7WPltk8jPDu')" \
+;
