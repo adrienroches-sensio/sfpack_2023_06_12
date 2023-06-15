@@ -7,6 +7,7 @@ use App\Form\MovieType;
 use App\Model\Movie;
 use App\Omdb\Api\OmdbApiClientInterface;
 use App\Repository\MovieRepository;
+use App\Security\Voter\MovieVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,8 +43,11 @@ class MovieController extends AbstractController
     )]
     public function details(string $movieSlug): Response
     {
+        $movie = Movie::fromMovieEntity($this->movieRepository->getBySlug($movieSlug));
+        $this->denyAccessUnlessGranted(MovieVoter::MEETS_AGE_REQUIREMENTS, $movie);
+
         return $this->render('movie/details.html.twig', [
-            'movie' => Movie::fromMovieEntity($this->movieRepository->getBySlug($movieSlug)),
+            'movie' => $movie,
         ]);
     }
 
@@ -57,8 +61,11 @@ class MovieController extends AbstractController
     )]
     public function detailsFromOmdb(string $imdbId): Response
     {
+        $movie = Movie::fromOmdb($this->omdbApiClient->getById($imdbId));
+        $this->denyAccessUnlessGranted(MovieVoter::MEETS_AGE_REQUIREMENTS, $movie);
+
         return $this->render('movie/details.html.twig', [
-            'movie' => Movie::fromOmdb($this->omdbApiClient->getById($imdbId)),
+            'movie' => $movie,
         ]);
     }
 

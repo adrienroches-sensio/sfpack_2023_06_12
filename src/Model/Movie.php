@@ -24,6 +24,7 @@ final class Movie
         public readonly DateTimeImmutable $releasedAt,
         public readonly string            $poster,
         public readonly array             $genres,
+        public readonly Rated             $rated,
     ) {
     }
 
@@ -38,6 +39,7 @@ final class Movie
             genres: $movieEntity->getGenres()->map(static function (GenreEntity $genreEntity): string {
                 return $genreEntity->getName();
             })->toArray(),
+            rated: $movieEntity->getRated(),
         );
     }
 
@@ -60,6 +62,7 @@ final class Movie
             releasedAt: new DateTimeImmutable($movieOmdb->Released),
             poster: $movieOmdb->Poster,
             genres: explode(', ', $movieOmdb->Genre),
+            rated: Rated::tryFrom($movieOmdb->Rated) ?? Rated::GeneralAudiences,
         );
     }
 
