@@ -16,8 +16,8 @@ symfony console doctrine:query:sql "INSERT INTO movie_genre (movie_id, genre_id)
 symfony console doctrine:query:sql "INSERT INTO movie_genre (movie_id, genre_id) VALUES (2, 2)"
 
 symfony console doctrine:query:sql \
-  "INSERT INTO user (username, roles, password) VALUES ('adrien', '[\"ROLE_ADMIN\"]', '\$2y\$13\$7iLRI.zz6foUch5qmvms8eqmlG07seWC6aLwZ/8pvL7WPltk8jPDu')" \
+  "INSERT INTO user (username, roles, password, birthdate) VALUES ('adrien', '[\"ROLE_ADMIN\"]', '\$2y\$13\$7iLRI.zz6foUch5qmvms8eqmlG07seWC6aLwZ/8pvL7WPltk8jPDu', '1945-03-24 00:00:00')" \
 ;
 symfony console doctrine:query:sql \
-  "INSERT INTO user (username, roles, password) VALUES ('max', '[]', '\$2y\$13\$1o5q7EherDhCnVPQJR4/I.HHmBZuHZ7C2.BLSZIi1kQMLEQPDITLi')" \
+  "INSERT INTO user (username, roles, password, birthdate) VALUES ('max', '[]', '\$2y\$13\$1o5q7EherDhCnVPQJR4/I.HHmBZuHZ7C2.BLSZIi1kQMLEQPDITLi', '2008-06-10 00:00:00')" \
 ;
